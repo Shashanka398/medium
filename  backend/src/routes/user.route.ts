@@ -2,8 +2,7 @@ import { Hono } from 'hono';
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate';
 import {  sign } from 'hono/jwt'
-import { signUpInput } from '../zod';
-
+import { signUpInput } from 'medium-common-shash';
 export const user=new Hono<{
 	Bindings:{
 		DATABASE_URL:string,

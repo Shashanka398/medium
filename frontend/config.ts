@@ -1,0 +1,1 @@
+export const BACKEND_URL="https://backend.shashanksagar398.workers.dev/api/v1"
