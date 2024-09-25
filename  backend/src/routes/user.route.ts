@@ -81,8 +81,12 @@ user.post('/signin', async (c) => {
    
 
    return c.json({
-       jwt:token
+       jwt:token,
+       userName:user.name,
+       userId:user.id
    })
 })
+
+
 
 

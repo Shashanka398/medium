@@ -2,6 +2,7 @@ import { useState } from "react"
 import {SignInInput} from "medium-common-shash"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
+
 import {BACKEND_URL} from '../../config.ts'
 const Auth = ({type}:{type: 'signin' | 'signup' }) => {
   const navigate=useNavigate()
@@ -15,8 +16,12 @@ const Auth = ({type}:{type: 'signin' | 'signup' }) => {
       const res= await axios.post(
         `${BACKEND_URL}/users/${type==='signup'?'signup':'signin'}`,postInputs
       )
-      const jwt=res.data
+      const jwt=res.data.jwt
+      const userId=res.data.userId
+      const userName=res.data.userName
       console.log(jwt)
+      localStorage.setItem('userId',userId)
+       localStorage.setItem('userName',userName)
       localStorage.setItem('token',jwt)
       navigate('/blogs')
     }catch(e){

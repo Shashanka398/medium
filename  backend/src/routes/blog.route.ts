@@ -25,6 +25,7 @@ blog.use('*', async (c, next) => {
   });
   blog.use('/*', async (c, next) => {
 	const header=c.req.header("Authorization") || ""
+	console.log(header,"hedare")
 	if(!header){
 		c.status(403)
 		return c.json({
@@ -45,7 +46,37 @@ blog.use('*', async (c, next) => {
 	await next()
   })
 
+  blog.get('/bulk', async (c) => {
+    const prisma = c.get('prisma');
+    
+    try {
+        const posts = await prisma.posts.findMany({
+            include: {
+                author: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
+        });
+        
+        console.log(posts, "posts");
+        
+        return c.json({
+            data: posts
+        });
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+        return c.json({
+            error: 'Failed to fetch posts'
+        }, 500);
+    }
+});
+
+
+
   blog.get('/:id', async (c) => {
+	console.log("entered id")
    const id = c.req.param('id')
 	const prisma =c.get('prisma')
 	const posts=await prisma.posts.findMany(
